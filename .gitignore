@@ -12,6 +12,11 @@ test-results/
 out/
 build/
 dist/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
 
 # Environment variables
 .env

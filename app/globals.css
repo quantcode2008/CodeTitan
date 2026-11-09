@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Proofreader's Desk - Light Theme */
+  --paper: #F6F3EC;
+  --paper-raised: #FBF9F4;
+  --paper-sunken: #EDE8DC;
+  
+  --ink: #16140F;
+  --ink-soft: #4A463C;
+  --ink-faint: #787364;
+  
+  --rule: #DDD6C6;
+  --rule-soft: #ECE7DC;
+  
+  --oxblood: #8C2F2B;
+  --oxblood-tint: #F9ECEB;
+  
+  --ochre: #B07A1F;
+  --ochre-tint: #FDF6E9;
+  
+  --slate: #3F5B73;
+  --slate-tint: #EDF3F7;
+  
+  --moss: #4B6B45;
+  --moss-tint: #EDF4EC;
+  
+  --accent: #1F3A5F;
+  --accent-soft: #E8EFF7;
+}
+
+.dark {
+  /* Night Desk - Dark Theme */
+  --paper: #14130F;
+  --paper-raised: #1C1A14;
+  --paper-sunken: #0D0C09;
+  
+  --ink: #F6F3EC;
+  --ink-soft: #A8A396;
+  --ink-faint: #6B665A;
+  
+  --rule: #2D2A22;
+  --rule-soft: #23201A;
+  
+  --oxblood: #E06C68;
+  --oxblood-tint: #2B1515;
+  
+  --ochre: #E5AA42;
+  --ochre-tint: #2A1D0B;
+  
+  --slate: #8EAEC9;
+  --slate-tint: #16222D;
+  
+  --moss: #89B581;
+  --moss-tint: #162415;
+  
+  --accent: #6B9BD1;
+  --accent-soft: #172438;
+}
+
+@layer base {
+  * {
+    border-color: var(--rule);
+  }
+  
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    selection-background-color: var(--accent-soft);
+    selection-color: var(--ink);
+  }
+
+  ::selection {
+    background-color: var(--accent-soft);
+    color: var(--ink);
+  }
+}
+
+/* Proofreader annotation styling */
+.annotation-wavy-critical {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--oxblood);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.annotation-wavy-major {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--ochre);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.annotation-solid-minor {
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: var(--slate);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+.annotation-dashed-advisory {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: var(--slate);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+}
+
+/* Subtle paper skeleton shimmer */
+@keyframes paper-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--paper-sunken) 25%,
+    var(--paper-raised) 50%,
+    var(--paper-sunken) 75%
+  );
+  background-size: 200% 100%;
+  animation: paper-shimmer 2.2s infinite ease-in-out;
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

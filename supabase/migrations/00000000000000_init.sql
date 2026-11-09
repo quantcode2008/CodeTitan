@@ -1,0 +1,2 @@
+-- Supabase SQL Migrations for BrandProof
+-- All schema migrations and Row Level Security (RLS) policies live in this directory.
