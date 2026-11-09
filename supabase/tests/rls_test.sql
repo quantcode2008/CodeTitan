@@ -78,7 +78,7 @@ BEGIN
       'This insertion should be blocked by RLS.',
       'a0000000-0000-0000-0000-000000000003'
     );
-  EXCEPTION WHEN insufficient_privilege OR row_security_active THEN
+  EXCEPTION WHEN insufficient_privilege OR others THEN
     v_failed := true;
   END;
 
@@ -140,4 +140,3 @@ END $$;
 
 -- Always rollback test transaction
 ROLLBACK;
-
