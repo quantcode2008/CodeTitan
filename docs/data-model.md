@@ -215,3 +215,4 @@ Two private buckets are configured with zero public access:
    - Storage path: `{workspace_id}/{filename}`
    - Read policy: Members of `{workspace_id}`.
    - Write policy: Workspace members.
+

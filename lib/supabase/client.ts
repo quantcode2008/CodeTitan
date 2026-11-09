@@ -20,3 +20,4 @@ export function createClient() {
     supabaseAnonKey || "placeholder-anon-key"
   );
 }
+

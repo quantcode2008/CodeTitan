@@ -140,3 +140,4 @@ END $$;
 
 -- Always rollback test transaction
 ROLLBACK;
+

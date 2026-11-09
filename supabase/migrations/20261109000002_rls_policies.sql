@@ -545,3 +545,4 @@ CREATE POLICY "Content uploads delete by workspace admins"
     bucket_id = 'content-uploads'
     AND has_role((storage.foldername(name))[1]::uuid, 'admin')
   );
+

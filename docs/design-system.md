@@ -137,3 +137,4 @@ Contrast calculated against light paper canvas (`#F6F3EC`, L ~ 0.891) and dark c
 - ❌ **NO rounded-full pill cards or rounded-2xl blobs**
 - ❌ **NO generic AI placeholder copy or Lorem Ipsum**
 - ❌ **NO automated approvals (a clean scan never equals approval)**
+
