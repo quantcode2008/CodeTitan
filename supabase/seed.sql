@@ -4,10 +4,6 @@
 -- data for hackathon evaluation and testing. Clearly labeled as DEMO DATA.
 -- =============================================================================
 
--- -----------------------------------------------------------------------------
--- 1. Demo User Profiles
--- -----------------------------------------------------------------------------
--- Pre-generated consistent UUIDs for deterministic testing
 DO $$
 DECLARE
   v_admin_id uuid := 'a0000000-0000-0000-0000-000000000001';
@@ -45,7 +41,79 @@ DECLARE
   v_rew_3  uuid := 'f0000000-0000-0000-0000-000000000003';
 
 BEGIN
-  -- Insert demo profiles if not existing
+  -- ---------------------------------------------------------------------------
+  -- 1. Ensure Auth Users exist in auth.users (Satisfies profiles_id_fkey)
+  -- ---------------------------------------------------------------------------
+  INSERT INTO auth.users (
+    id,
+    instance_id,
+    aud,
+    role,
+    email,
+    encrypted_password,
+    email_confirmed_at,
+    raw_app_meta_data,
+    raw_user_meta_data,
+    created_at,
+    updated_at
+  ) VALUES 
+    (
+      v_admin_id,
+      '00000000-0000-0000-0000-000000000000',
+      'authenticated',
+      'authenticated',
+      'admin@asterpine.demo',
+      crypt('demo-password-123', gen_salt('bf')),
+      now(),
+      '{"provider":"email","providers":["email"]}'::jsonb,
+      '{"full_name":"Elena Vance (Admin)"}'::jsonb,
+      now(),
+      now()
+    ),
+    (
+      v_reviewer_id,
+      '00000000-0000-0000-0000-000000000000',
+      'authenticated',
+      'authenticated',
+      'reviewer@asterpine.demo',
+      crypt('demo-password-123', gen_salt('bf')),
+      now(),
+      '{"provider":"email","providers":["email"]}'::jsonb,
+      '{"full_name":"Marcus Thorne (Designated Reviewer)"}'::jsonb,
+      now(),
+      now()
+    ),
+    (
+      v_creator_1_id,
+      '00000000-0000-0000-0000-000000000000',
+      'authenticated',
+      'authenticated',
+      'creator1@asterpine.demo',
+      crypt('demo-password-123', gen_salt('bf')),
+      now(),
+      '{"provider":"email","providers":["email"]}'::jsonb,
+      '{"full_name":"Chloe Bennett (Creator)"}'::jsonb,
+      now(),
+      now()
+    ),
+    (
+      v_creator_2_id,
+      '00000000-0000-0000-0000-000000000000',
+      'authenticated',
+      'authenticated',
+      'creator2@asterpine.demo',
+      crypt('demo-password-123', gen_salt('bf')),
+      now(),
+      '{"provider":"email","providers":["email"]}'::jsonb,
+      '{"full_name":"Liam Patel (Creator)"}'::jsonb,
+      now(),
+      now()
+    )
+  ON CONFLICT (id) DO NOTHING;
+
+  -- ---------------------------------------------------------------------------
+  -- 2. Upsert Profiles
+  -- ---------------------------------------------------------------------------
   INSERT INTO profiles (id, full_name, avatar_url)
   VALUES 
     (v_admin_id, 'Elena Vance (Admin)', 'https://api.dicebear.com/7.x/avataaars/svg?seed=Elena'),
@@ -55,7 +123,7 @@ BEGIN
   ON CONFLICT (id) DO UPDATE SET full_name = EXCLUDED.full_name;
 
   -- ---------------------------------------------------------------------------
-  -- 2. Workspace: Aster & Pine
+  -- 3. Workspace: Aster & Pine
   -- ---------------------------------------------------------------------------
   INSERT INTO workspaces (id, name, slug, description, created_by)
   VALUES (
@@ -77,7 +145,7 @@ BEGIN
   ON CONFLICT (workspace_id, user_id) DO NOTHING;
 
   -- ---------------------------------------------------------------------------
-  -- 3. Controlled Brand Sources (12 Approved Policies & Guidelines)
+  -- 4. Controlled Brand Sources (12 Approved Policies & Guidelines)
   -- ---------------------------------------------------------------------------
   
   -- S-001: Tone of Voice & Brand Character
@@ -164,7 +232,7 @@ BEGIN
   -- S-010: Regulatory Pricing & Discount Disclosures
   INSERT INTO brand_sources (id, workspace_id, source_key, type, title, body, owner_id, review_by, status, tags)
   VALUES (
-    v_src_010, v_workspace_id, 'S-010', 'guideline',
+    v_src_10, v_workspace_id, 'S-010', 'guideline',
     'Pricing Disclosures & Promotional Transparency',
     'Sales copy must never deploy artificial urgency tactics (e.g. "Only 2 left at this price!" without real inventory sync). Strike-through pricing must reflect bona fide sales in the preceding 60 days.',
     v_admin_id, '2027-01-01', 'active', ARRAY['pricing', 'disclosures', 'legal']
@@ -189,7 +257,7 @@ BEGIN
   ) ON CONFLICT (workspace_id, source_key) DO NOTHING;
 
   -- ---------------------------------------------------------------------------
-  -- 4. Brand Terms (Exact Match Rules)
+  -- 5. Brand Terms (Exact Match Rules)
   -- ---------------------------------------------------------------------------
   INSERT INTO brand_terms (workspace_id, term, kind, replacement, severity, source_id, notes)
   VALUES
@@ -202,7 +270,7 @@ BEGIN
   ON CONFLICT DO NOTHING;
 
   -- ---------------------------------------------------------------------------
-  -- 5. Brand Facts (Stale-Stat & Fact Registry)
+  -- 6. Brand Facts (Stale-Stat & Fact Registry)
   -- ---------------------------------------------------------------------------
   INSERT INTO brand_facts (workspace_id, key, value, unit, valid_from, valid_until, source_id)
   VALUES
@@ -213,7 +281,7 @@ BEGIN
   ON CONFLICT DO NOTHING;
 
   -- ---------------------------------------------------------------------------
-  -- 6. Brand Assets
+  -- 7. Brand Assets
   -- ---------------------------------------------------------------------------
   INSERT INTO brand_assets (workspace_id, name, storage_path, alt_text_required, usage_rule, source_id)
   VALUES
@@ -222,7 +290,7 @@ BEGIN
   ON CONFLICT DO NOTHING;
 
   -- ---------------------------------------------------------------------------
-  -- 7. Seeded Drafts & Review Cycles
+  -- 8. Seeded Drafts & Review Cycles
   -- ---------------------------------------------------------------------------
 
   -- ---------------------------------------------------------------------------
@@ -372,4 +440,3 @@ BEGIN
   );
 
 END $$;
-
