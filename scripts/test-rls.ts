@@ -14,6 +14,13 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "../lib/database.types";
 
+// Auto-load .env.local if present
+try {
+  process.loadEnvFile(".env.local");
+} catch {
+  // Ignore if running in CI or file absent
+}
+
 interface WorkspaceRecord {
   id: string;
   name: string;
@@ -35,18 +42,13 @@ async function runRlsTests() {
     console.log("     npx tsx scripts/test-rls.ts");
     console.log("   You can also execute the automated SQL test suite directly in");
     console.log("   the Supabase SQL Editor via: /supabase/tests/rls_test.sql\n");
-    console.log("Verified Test Invariants:");
-    console.log("  [1] Creator A isolated from Creator B draft: verified in SQL test suite.");
-    console.log("  [2] Creator forbidden from brand_sources mutation: verified in SQL test suite.");
-    console.log("  [3] Reviewer / Admin workspace-wide visibility: verified in SQL test suite.");
-    console.log("  [4] Audit events append-only immutability: verified in SQL test suite.");
     return;
   }
 
   const adminClient = createClient<Database>(supabaseUrl, serviceKey || anonKey);
 
   console.log("Connected to Supabase project:", supabaseUrl);
-  console.log("Checking workspace and seed records...");
+  console.log("Checking workspace and database tables...");
 
   const { data, error: wsError } = await adminClient
     .from("workspaces")
@@ -57,7 +59,13 @@ async function runRlsTests() {
   const workspace = data as unknown as WorkspaceRecord | null;
 
   if (wsError || !workspace) {
-    console.error("❌ Workspace 'aster-pine' not found. Please apply /supabase/seed.sql first.");
+    console.log("ℹ️  Status: Connected to Supabase, but 'workspaces' table or 'aster-pine' seed data is not yet found.");
+    console.log("   Error details:", wsError?.message || "Record not found");
+    console.log("\n👉 ACTION REQUIRED IN SUPABASE DASHBOARD SQL EDITOR:");
+    console.log("   1. Run /supabase/migrations/20261109000001_initial_schema.sql");
+    console.log("   2. Run /supabase/migrations/20261109000002_rls_policies.sql");
+    console.log("   3. Run /supabase/seed.sql");
+    console.log("   4. Run /supabase/tests/rls_test.sql to verify\n");
     return;
   }
 
