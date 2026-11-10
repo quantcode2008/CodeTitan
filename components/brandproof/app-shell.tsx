@@ -109,7 +109,7 @@ export function AppShell({
       {
         label:
           currentRole === "creator" ? "Brand Pack (Read-Only)" : "Brand Pack",
-        href: "/brand-pack",
+        href: "/brand",
         icon: BookOpen,
       },
       { label: "Insights", href: "/insights", icon: BarChart2 },

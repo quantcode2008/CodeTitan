@@ -198,3 +198,4 @@ describe("Authentication & Role-Aware Authorization (requireRole)", () => {
     expect(result.membership.role).toBe("creator");
   });
 });
+

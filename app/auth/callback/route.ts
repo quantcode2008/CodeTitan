@@ -18,3 +18,4 @@ export async function GET(request: Request) {
   // Return to login with error indicator if code exchange failed
   return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`);
 }
+
