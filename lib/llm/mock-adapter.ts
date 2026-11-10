@@ -119,3 +119,4 @@ export class MockLLMAdapter implements LLMProvider {
     return LLMAnalysisResponseSchema.parse(response);
   }
 }
+

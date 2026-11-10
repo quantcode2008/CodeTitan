@@ -68,3 +68,4 @@ describe("Prompt-Injection Defense & Untrusted Data Isolation (Principle 6 & 7)"
     expect(scrubbed).toContain("workspace_id");
   });
 });
+

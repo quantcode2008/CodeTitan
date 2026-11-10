@@ -83,3 +83,4 @@ export interface LLMAnalysisRequest {
   brand_sources: BrandSourceContext[];
   facts?: BrandFactContext[];
 }
+

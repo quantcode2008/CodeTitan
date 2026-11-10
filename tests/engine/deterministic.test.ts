@@ -105,3 +105,4 @@ describe("Deterministic Governance Engine (Lane 1)", () => {
     expect(findings).toHaveLength(0);
   });
 });
+
