@@ -9,11 +9,21 @@ import { runLLMLane } from "./llm-lane";
 import { validateAndMergeFindings } from "./merge";
 import { ReviewRunResult, ReviewRunSummary } from "./types";
 
+export type ReviewStage =
+  | "loading"
+  | "retrieving"
+  | "rules"
+  | "llm"
+  | "validating"
+  | "persisting"
+  | "complete";
+
 export interface RunReviewOptions {
   injectedClient?: SupabaseClient<Database>;
   llmProvider?: LLMProvider;
   referenceDate?: Date;
   actorId?: string;
+  onProgress?: (stage: ReviewStage, label: string) => void | Promise<void>;
 }
 
 /**
@@ -39,6 +49,8 @@ export async function runReview(
     // -------------------------------------------------------------------------
     // 1. LOAD DRAFT CONTENT & METADATA
     // -------------------------------------------------------------------------
+    await options.onProgress?.("loading", "Loading draft copy and workspace metadata...");
+
     const { data: contentItem, error: itemErr } = await supabase
       .from("content_items")
       .select("id, workspace_id, title, channel, content_type, intended_message, created_by")
@@ -90,6 +102,8 @@ export async function runReview(
     // -------------------------------------------------------------------------
     // 3. RETRIEVE TRUSTED CONTEXT
     // -------------------------------------------------------------------------
+    await options.onProgress?.("retrieving", "Retrieving sources from brand knowledge base...");
+
     const retrievedSources = await retrieveTrustedContext(
       supabase,
       workspaceId,
@@ -99,6 +113,8 @@ export async function runReview(
     // -------------------------------------------------------------------------
     // 4. RULE LANE (Deterministic Scanners)
     // -------------------------------------------------------------------------
+    await options.onProgress?.("rules", "Checking deterministic governance rules...");
+
     // Fetch active brand_terms and brand_facts
     const [termsRes, factsRes] = await Promise.all([
       supabase
@@ -144,6 +160,8 @@ export async function runReview(
     // -------------------------------------------------------------------------
     // 5. LLM LANE (Advisory Tone, Meaning & Claims)
     // -------------------------------------------------------------------------
+    await options.onProgress?.("llm", "Analysing context and tone...");
+
     const llmResult = await runLLMLane({
       draftText,
       channel: contentItem.channel,
@@ -155,6 +173,8 @@ export async function runReview(
     // -------------------------------------------------------------------------
     // 6. VALIDATE & MERGE FINDINGS
     // -------------------------------------------------------------------------
+    await options.onProgress?.("validating", "Validating evidence and citations...");
+
     const { findings: mergedFindings } = validateAndMergeFindings({
       draftText,
       ruleFindings,
@@ -167,6 +187,7 @@ export async function runReview(
     // -------------------------------------------------------------------------
     // 7. PERSIST REVIEW & FINDINGS
     // -------------------------------------------------------------------------
+    await options.onProgress?.("persisting", "Recording review findings and provenance snapshot...");
     // Determine review status: needs_attention if any finding, otherwise ready_for_review.
     // FUNDAMENTAL LAW: A clean scan NEVER equals approved!
     const reviewStatus: ReviewStatus =
@@ -284,6 +305,8 @@ export async function runReview(
       },
       injectedClient: supabase,
     });
+
+    await options.onProgress?.("complete", "Review completed.");
 
     return {
       success: true,

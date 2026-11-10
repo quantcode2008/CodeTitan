@@ -76,3 +76,4 @@ export function runRuleLane(params: RuleLaneParams): RuleFinding[] {
   // Sort by document offset
   return verifiedFindings.sort((a, b) => a.span_start - b.span_start);
 }
+

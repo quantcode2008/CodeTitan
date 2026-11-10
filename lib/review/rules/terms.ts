@@ -61,3 +61,4 @@ export function scanTermsRule(
 
   return findings;
 }
+

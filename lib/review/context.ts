@@ -147,3 +147,4 @@ export async function retrieveTrustedContext(
 
   return Array.from(resultSources.values());
 }
+

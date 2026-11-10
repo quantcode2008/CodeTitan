@@ -117,3 +117,4 @@ export function scanAccessibilityRule(draftText: string): RuleFinding[] {
 
   return findings;
 }
+

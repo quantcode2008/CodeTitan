@@ -103,7 +103,7 @@ export function AppShell({
             : currentRole === "creator"
             ? "Drafts & Scans"
             : "Review Desk",
-        href: "/",
+        href: "/reviews",
         icon: FileCheck2,
       },
       {

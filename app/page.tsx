@@ -36,16 +36,22 @@ export default function HomePage() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Link href="/design">
+            <Link href="/reviews/new">
               <Button variant="primary">
-                <Palette className="w-4 h-4 mr-1.5 stroke-[1.5]" />
-                Explore Design System Showcase
+                <FileText className="w-4 h-4 mr-1.5 stroke-[1.5]" />
+                Submit New Draft Copy
               </Button>
             </Link>
-            <Link href="/design">
+            <Link href="/reviews">
               <Button variant="secondary">
-                <FileText className="w-4 h-4 mr-1.5 stroke-[1.5]" />
-                Inspect Proofreader Components
+                <ShieldCheck className="w-4 h-4 mr-1.5 stroke-[1.5]" />
+                Open Review Desk
+              </Button>
+            </Link>
+            <Link href="/brand">
+              <Button variant="secondary">
+                <BookOpen className="w-4 h-4 mr-1.5 stroke-[1.5]" />
+                Brand Pack Knowledge Base
               </Button>
             </Link>
           </div>

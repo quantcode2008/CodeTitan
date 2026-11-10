@@ -125,3 +125,4 @@ export function scanFactsRule(
 
   return findings;
 }
+

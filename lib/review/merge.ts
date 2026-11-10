@@ -217,3 +217,4 @@ export function validateAndMergeFindings(params: MergeParams): {
     validationWarnings,
   };
 }
+
