@@ -64,6 +64,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       workspaces: {
         Row: {
@@ -93,6 +94,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       workspace_members: {
         Row: {
@@ -122,6 +124,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       brand_sources: {
         Row: {
@@ -170,6 +173,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       brand_source_versions: {
         Row: {
@@ -202,6 +206,7 @@ export interface Database {
           change_note?: string | null;
           created_at?: string;
         };
+        Relationships: [];
       };
       brand_terms: {
         Row: {
@@ -240,6 +245,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       brand_facts: {
         Row: {
@@ -278,6 +284,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       brand_assets: {
         Row: {
@@ -313,6 +320,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       content_items: {
         Row: {
@@ -354,6 +362,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       revisions: {
         Row: {
@@ -389,6 +398,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       reviews: {
         Row: {
@@ -427,6 +437,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       findings: {
         Row: {
@@ -498,6 +509,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       comments: {
         Row: {
@@ -527,6 +539,7 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       audit_events: {
         Row: {
@@ -549,9 +562,11 @@ export interface Database {
           payload?: Json;
           created_at?: string;
         };
-        Update: never; // Append-only ledger
+        Update: Record<string, never>; // Append-only ledger
+        Relationships: [];
       };
     };
+    Views: Record<string, never>;
     Functions: {
       search_sources: {
         Args: {
