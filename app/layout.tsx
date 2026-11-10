@@ -19,10 +19,12 @@ export default function RootLayout({
       className={`${newsreader.variable} ${instrumentSans.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="min-h-screen bg-paper text-ink font-sans antialiased">
+      <body
+        className="min-h-screen bg-paper text-ink font-sans antialiased"
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>
   );
 }
-
