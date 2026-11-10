@@ -117,3 +117,4 @@ export default async function BrandFactsPage() {
     </AppShell>
   );
 }
+

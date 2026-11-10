@@ -180,3 +180,5 @@ export function scrubSensitiveLogs(data: unknown): string {
   }
 }
 
+export const sanitizeLogPayload = scrubSensitiveLogs;
+

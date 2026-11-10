@@ -415,3 +415,4 @@ export default async function BrandOverviewPage() {
     </AppShell>
   );
 }
+

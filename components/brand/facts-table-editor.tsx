@@ -144,14 +144,14 @@ export function FactsTableEditor({
             prev.map((f) =>
               f.id === editingFactId
                 ? {
-                    ...f,
-                    key: formKey,
-                    value: formValue,
-                    unit: formUnit || null,
-                    valid_from: formValidFrom || null,
-                    valid_until: formValidUntil || null,
-                    source_id: formSourceId || null,
-                  }
+                  ...f,
+                  key: formKey,
+                  value: formValue,
+                  unit: formUnit || null,
+                  valid_from: formValidFrom || null,
+                  valid_until: formValidUntil || null,
+                  source_id: formSourceId || null,
+                }
                 : f
             )
           );
