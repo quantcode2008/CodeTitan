@@ -19,10 +19,12 @@ import {
   Plus,
   LogOut,
   Star,
+  Layers,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { WorkspaceRole } from "@/lib/auth/types";
 import { signOutAction } from "@/lib/actions/auth";
+import { NotificationsBell } from "@/components/brandproof/notifications-bell";
 
 export interface WorkspaceItem {
   id: string;
@@ -92,29 +94,37 @@ export function AppShell({
 
   // Role-Aware Navigation:
   // - creators: see drafts & read-only brand pack, no settings
-  // - reviewers: see review queue, brand pack, insights, no settings
-  // - admins: see full desk, brand pack, insights, settings & members
+  // - reviewers: see review queue, all submissions, brand pack, insights
+  // - admins: see review queue, all submissions, brand pack, insights, settings & members
   const navItems = React.useMemo(() => {
-    const items = [
-      {
-        label:
-          currentRole === "reviewer"
-            ? "Review Queue"
-            : currentRole === "creator"
-            ? "Drafts & Scans"
-            : "Review Desk",
+    const items = [];
+
+    if (currentRole === "reviewer" || currentRole === "admin") {
+      items.push({
+        label: "Review Queue",
+        href: "/queue",
+        icon: FileCheck2,
+      });
+      items.push({
+        label: "All Submissions",
+        href: "/reviews",
+        icon: Layers,
+      });
+    } else {
+      items.push({
+        label: "Drafts & Scans",
         href: "/reviews",
         icon: FileCheck2,
-      },
-      {
-        label:
-          currentRole === "creator" ? "Brand Pack (Read-Only)" : "Brand Pack",
-        href: "/brand",
-        icon: BookOpen,
-      },
-      { label: "Insights", href: "/insights", icon: BarChart2 },
-      { label: "Design System", href: "/design", icon: Palette },
-    ];
+      });
+    }
+
+    items.push({
+      label: currentRole === "creator" ? "Brand Pack (Read-Only)" : "Brand Pack",
+      href: "/brand",
+      icon: BookOpen,
+    });
+    items.push({ label: "Insights", href: "/insights", icon: BarChart2 });
+    items.push({ label: "Design System", href: "/design", icon: Palette });
 
     if (currentRole === "admin") {
       items.push({
@@ -369,8 +379,9 @@ export function AppShell({
             </nav>
           </div>
 
-          {/* Right Meta: Role Badge & Sign In / Out */}
+          {/* Right Meta: Notifications, Role Badge & Sign In / Out */}
           <div className="flex items-center space-x-3">
+            <NotificationsBell />
             <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-sm bg-paper-sunken border border-rule font-mono text-[10px] uppercase text-ink-soft">
               <Shield className="w-3 h-3 text-accent stroke-[1.5]" />
               Role: <strong className="text-ink">{currentRole}</strong>

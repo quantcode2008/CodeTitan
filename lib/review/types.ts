@@ -59,6 +59,7 @@ export interface ReviewFinding {
   confidence: number;
   suggestion: string | null;
   status: FindingStatus;
+  resolution_note?: string | null;
   requires_designated_reviewer: boolean;
 }
 
