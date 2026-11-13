@@ -45,6 +45,7 @@ export class GeminiAdapter implements LLMProvider {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(15000), // Explicit 15s timeout
         body: JSON.stringify({
           systemInstruction: {
             parts: [{ text: systemInstruction }],

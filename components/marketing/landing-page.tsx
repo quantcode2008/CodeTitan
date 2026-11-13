@@ -1223,3 +1223,4 @@ export function LandingPage() {
     </div>
   );
 }
+
