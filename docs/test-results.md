@@ -88,3 +88,4 @@ BRANDPROOF BENCHMARK EVALUATION TABLE (SEEDED DRAFTS)
 - Two-tier retry loop: Transient provider failures (e.g., HTTP 503 or malformed JSON) trigger exactly one immediate retry.
 - If the provider continues to fail or quota is exhausted, the system marks `ai_available = false` and continues in deterministic rule-only mode.
 - Explicit 15-second abort timeout prevents worker hanging.
+

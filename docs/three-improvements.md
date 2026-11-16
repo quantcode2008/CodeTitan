@@ -76,3 +76,4 @@
    - Production configuration for Vercel (`vercel.json`) with security response headers.
 
 - **Measurable Improvement:** **From 0 tests, insecure client keys, and manual deploys $\to$ 88 passing tests, zero exposed server secrets, multi-stage Docker builds, and automated health checks.**
+
